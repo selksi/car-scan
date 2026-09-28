@@ -1,57 +1,52 @@
 # Car Scan
 
-O **Car Scan** é uma aplicação web em desenvolvimento em **PHP com Laravel**, criada para facilitar o gerenciamento e o acompanhamento da manutenção de veículos.
+O **Car Scan** é uma aplicação web para gerenciamento de veículos e seus registros de manutenção, desenvolvida com PHP e Laravel.
 
-O sistema permite cadastrar veículos, registrar manutenções e acompanhar automaticamente a quilometragem e os prazos de validade dos componentes, auxiliando na prevenção de manutenções atrasadas.
+> **Status: em desenvolvimento**
+>
+> O projeto ainda está em construção. Algumas funcionalidades descritas no planejamento ainda não estão disponíveis, podem estar incompletas ou sofrer alterações sem aviso. No estado atual, o dashboard continua sendo uma tela inicial, e as áreas de garagem e manutenção ainda estão sendo implementadas.
 
-## Funcionalidades
+## Estado atual
 
-### Gestão de veículos
+### Disponível
 
-* Cadastro de veículos com marca, modelo, ano e quilometragem atual.
-* Organização dos veículos vinculados a cada usuário.
+* Estrutura inicial da aplicação Laravel.
+* Cadastro, login, verificação de e-mail e recuperação de senha.
+* Gerenciamento de perfil e preferências de aparência.
+* Autenticação em dois fatores e suporte a passkeys.
+* Migrações iniciais para usuários, veículos e manutenções.
+* Estrutura inicial de rotas e controladores para veículos e manutenções.
 
-### Histórico de manutenções
+### Em desenvolvimento ou ainda não disponível
 
-* Registro dos serviços realizados em cada veículo.
-* Controle de validade por **quilometragem**.
-* Controle de validade por **data**.
-* Histórico das manutenções realizadas.
+* Dashboard com informações reais dos veículos e manutenções.
+* Telas funcionais para visualizar e cadastrar veículos.
+* Histórico e edição de manutenções.
+* Atualização automática de quilometragem.
+* Alertas de manutenções próximas do vencimento.
+* Execução periódica de verificações com Laravel Task Scheduling.
 
-### Atualização automática
-
-* Sincronização da quilometragem do veículo com os registros de manutenção.
-* Atualização dos dados utilizados pelo painel de acompanhamento.
-
-### Sistema de alertas
-
-* Verificação automática de manutenções próximas do vencimento.
-* Utilização do **Laravel Task Scheduling** para execução das verificações de forma periódica.
-
-### Autenticação
-
-* Contas de usuário independentes.
-* Cada usuário possui acesso somente aos seus próprios veículos e registros de manutenção.
+As migrações de veículos e manutenções representam a estrutura planejada, mas não significam que todos esses fluxos já estejam disponíveis na interface.
 
 ## Tecnologias
 
-| Área           | Tecnologia        |
-| -------------- | ----------------- |
-| Backend        | PHP 8.x + Laravel |
-| Arquitetura    | MVC               |
-| Frontend       | Blade, HTML e CSS |
-| Banco de dados | PostgreSQL        |
-| Versionamento  | Git + GitHub      |
+| Área           | Tecnologia |
+| -------------- | ---------- |
+| Backend        | PHP 8.3+ e Laravel 13 |
+| Frontend       | Livewire 4, Blade, Flux e Tailwind CSS 4 |
+| Build          | Vite Plus e Laravel Vite Plugin |
+| Banco de dados | PostgreSQL |
+| Versionamento  | Git e GitHub |
 
 ## Pré-requisitos
 
-Antes de executar o projeto, certifique-se de possuir:
-
-* **PHP 8.x** com as extensões `pgsql` e `pdo_pgsql`
+* **PHP 8.3 ou superior** com as extensões `pgsql` e `pdo_pgsql`
 * **Composer**
 * **Node.js e NPM**
 * **PostgreSQL**
 * **Git**
+
+O banco de dados previsto para o projeto é o **PostgreSQL**. Crie uma base de dados e configure as variáveis correspondentes no arquivo `.env`:
 
 ## Instalação
 
@@ -62,99 +57,66 @@ git clone https://github.com/selksi/car-scan.git
 cd car-scan
 ```
 
-### 2. Instale as dependências
+### 2. Instale e configure as dependências
 
-Instale as dependências do PHP e do frontend:
+O script de configuração instala as dependências, cria o `.env`, gera a chave da aplicação, executa as migrações e compila os assets:
+
+```bash
+composer run setup
+```
+
+Se preferir executar as etapas manualmente:
 
 ```bash
 composer install
-npm install
-npm run build
-```
-
-### 3. Configure o ambiente
-
-Copie o arquivo de configuração de exemplo:
-
-```bash
 cp .env.example .env
-```
-
-Gere a chave da aplicação:
-
-```bash
 php artisan key:generate
 ```
 
-### 4. Configure o PostgreSQL
-
-Crie uma base de dados no PostgreSQL e configure as credenciais no arquivo `.env`:
+Confira se o `.env` contém uma configuração semelhante a esta, ajustando os valores para o seu ambiente:
 
 ```env
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
-DB_DATABASE=nome_da_sua_base_de_dados
-DB_USERNAME=seu_utilizador_postgres
-DB_PASSWORD=sua_palavra_passe
+DB_DATABASE=laravel
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
 ```
 
-### 5. Execute as migrações
-
-Para criar a estrutura do banco de dados:
+Depois, execute as migrações e compile os assets:
 
 ```bash
 php artisan migrate
+npm install
+npm run build
 ```
 
-### 6. Execute a aplicação
+### 3. Execute a aplicação
 
-Em um terminal, inicie o servidor Laravel:
+Para iniciar o servidor Laravel e o frontend em modo de desenvolvimento:
+
+```bash
+composer run dev
+```
+
+Alternativamente, execute o backend e o frontend em terminais separados:
 
 ```bash
 php artisan serve
+npm run dev
 ```
 
-Em outro terminal, inicie o agendador de tarefas:
-
-```bash
-php artisan schedule:work
-```
-
-A aplicação estará disponível em:
-
-```text
-http://localhost:8000
-````
-
-Os dados são persistidos em **PostgreSQL**, utilizando relacionamentos entre usuários, veículos e manutenções.
+A aplicação estará disponível em <http://localhost:8000>.
 
 ## Licença e uso comercial
 
 Este projeto está licenciado sob a **PolyForm Noncommercial License 1.0.0**.
 
-### Uso não comercial
-
-O código pode ser utilizado livremente para:
-
-* Uso pessoal;
-* Estudos;
-* Projetos acadêmicos;
-* Testes e desenvolvimento;
-* Gerenciamento da própria garagem.
-
-### Uso comercial
-
-Não é permitida a utilização do software para fins comerciais, sua inclusão em produtos pagos ou qualquer forma de exploração comercial sem autorização prévia.
-
-Oficinas, empresas ou outras organizações interessadas em utilizar o sistema comercialmente devem entrar em contato com o autor para negociação de uma **Licença Comercial Privada**.
+O código pode ser utilizado para fins pessoais, acadêmicos, de estudo, teste e desenvolvimento. Não é permitida a utilização para fins comerciais, sua inclusão em produtos pagos ou qualquer outra forma de exploração comercial sem autorização prévia.
 
 Para consultar os termos completos, consulte o arquivo [`LICENSE`](LICENSE).
 
 ## Autor
 
 **Samuel Carvalho**
-
-Desenvolvido como projeto utilizando **PHP, Laravel e PostgreSQL**.
-
----
