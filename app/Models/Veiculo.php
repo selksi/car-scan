@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Veiculo extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'placa',
+        'marca',
+        'modelo',
+        'ano',
+        'km_atual',
+    ];
+
     public function user(): HasOne
     {
         return $this->hasOne(User::class);
